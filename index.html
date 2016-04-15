@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="js/button.js"> </script>
+    <link rel="stylesheet" href="styles/styles.css">
+   
+</head>
+    <body onload="getStatus()">
+    <h1>CU5300 Expansion Board Tester</h1>
+    <h2>LEDS</h2>
+        <table>
+            <tr>
+                <th> Volume </th>
+                <th> Heartbeat </th>
+                <th> Audio Seize </th>
+                <th> Radio Seize </th>
+            </tr>
+            <tr> 
+                <td> <img src="images/gray.png" id="LED1" onclick="changeLED(this)"> </td>
+                <td> <img src="images/gray.png" id="LED2" onclick="changeLED(this)" > </td>
+                <td> <img src="images/gray.png" id="LED3" onclick="changeLED(this)" > </td>
+                <td> <img src="images/gray.png" id="LED4" onclick="changeLED(this)" > </td>
+            </tr>
+        </table>
+        <h2>Output Controls</h2>
+        <table>
+            <tr>
+                <th> PA PTT </th>
+                <th> PA Audio Select </th>
+                <th> Radio PTT </th>
+                <th> Radio Chan 1 </th>
+                <th> Radio Chan 2 </th>
+            </tr>
+            <tr> 
+                <td> <img src="images/gray.png" id="SWITCH1" onclick="changeSwitch(this)"> </td>
+                <td> <img src="images/gray.png" id="SWITCH2" onclick="changeSwitch(this)"> </td>
+                <td> <img src="images/gray.png" id="SWITCH3" onclick="changeSwitch(this)"> </td>
+                <td> <img src="images/gray.png" id="SWITCH4" onclick="changeSwitch(this)"> </td>
+                <td> <img src="images/gray.png" id="SWITCH5" onclick="changeSwitch(this)"> </td>
+            </tr>
+        </table>
+        <h2>Input Status</h2>
+        <table>
+            <tr>
+                <th> Vol UP </th>
+                <th> Vol DN </th>
+                <th> PA Busy </th>
+                <th> PA VOX </th>
+                <th> Radio Busy </th>
+
+            </tr>
+            <tr> 
+                <td> <img src="images/white.png"> </td>
+                <td> <img src="images/white.png"> </td>
+                <td> <img src="images/white.png"> </td>
+                <td> <img src="images/white.png"> </td>
+                <td> <img src="images/white.png"> </td>
+            </tr>
+        </table>
+
+    </body>
+</html>
