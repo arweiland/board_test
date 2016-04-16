@@ -50,11 +50,10 @@ app.get("/LEDChange", function(req, res) {
 });
 
 app.get("/getStatus", function(req, res) {
-    console.log('Got status request' );
-    res.setHeader('Content-Type', 'application/json');
     var stat = JSON.stringify({VOL_UP:vol_up, VOL_DN:vol_dn, PA_BUSY:PA_busy, PA_VOX:PA_VOX, RADIO_BUSY:radio_busy});
-    console.log( 'status: ' + stat );
+    res.setHeader('Content-Type', 'application/json');
     res.send( stat );
+//    console.log( 'status: ' + stat );
 //    res.send(JSON.stringify({button1:2, button2:4}));
 });
 
@@ -129,28 +128,25 @@ var vol_up, vol_dn, PA_busy, PA_VOX, radio_busy;
 init_stat();
 
 function init_stat(){
-    vol_up = vol_up_stat.readSync();
-    vol_dn = vol_dn_stat.readSync();
-    PA_busy = PA_busy_stat.readSync();
+    vol_up = !vol_up_stat.readSync();
+    vol_dn = !vol_dn_stat.readSync();
+    PA_busy = !PA_busy_stat.readSync();
     PA_VOX = PA_VOX_stat.readSync();
     radio_busy = radio_busy_stat.readSync();
-
-
-
 };
 
 vol_up_stat.watch( function(err, state) {
-    vol_up = state;
+    vol_up = !state;
     console.log( "Vol up went to state " + vol_up );
 });
 
 vol_dn_stat.watch( function(err, state) {
-    vol_dn = state;
+    vol_dn = !state;
     console.log( "Vol dn went to state " + vol_dn );
 });
 
 PA_busy_stat.watch( function(err, state){
-    PA_busy = state;
+    PA_busy = !state;
     console.log( "PA busy went to state " + PA_busy );   
 });
 
