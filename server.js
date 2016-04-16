@@ -15,8 +15,12 @@ var GPIO = require('onoff').Gpio,
     radio_PTT_ctl = new GPIO(13, 'out' ),
     radio_chan1_ctl = new GPIO(5, 'out' ),
     radio_chan2_ctl = new GPIO(6, 'out' ),
-    vol_up_sw = new GPIO(26, 'in', 'both' ),
-    vol_dn_sw = new GPIO(18, 'in', 'both' );
+    vol_up_stat = new GPIO(26, 'in', 'both' ),
+    vol_dn_stat = new GPIO(18, 'in', 'both' ),
+    PA_busy_stat = new GPIO(22, 'in', 'both' ),
+    PA_VOX_stat = new GPIO(8, 'in', 'both' ),
+    radio_busy_stat = new GPIO(19, 'in', 'both' );
+
 
  var options = {
     root: __dirname,
@@ -28,7 +32,7 @@ var GPIO = require('onoff').Gpio,
   };
 
  /* serves main page */
- app.get("/", function(req, res) {
+app.get("/", function(req, res) {
      res.sendFile('index.html', options)
  });
 
@@ -48,7 +52,10 @@ app.get("/LEDChange", function(req, res) {
 app.get("/getStatus", function(req, res) {
     console.log('Got status request' );
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({button1:2, button2:4}));
+    var stat = JSON.stringify({VOL_UP:vol_up, VOL_DN:vol_dn, PA_BUSY:PA_busy, PA_VOX:PA_VOX, RADIO_BUSY:radio_busy});
+    console.log( 'status: ' + stat );
+    res.send( stat );
+//    res.send(JSON.stringify({button1:2, button2:4}));
 });
 
 
@@ -57,14 +64,14 @@ app.post("/user/add", function(req, res) {
  });
  
  /* serves all the static files */
- app.get(/^(.+)$/, function(req, res){ 
+app.get(/^(.+)$/, function(req, res){ 
      console.log('static file request : ' + req.path);
      res.sendFile( req.params[0], options); 
  });
  
  var port = process.env.PORT || 5000;
- app.listen(port, function() {
-   console.log("Listening on " + port);
+app.listen(port, function() {
+    console.log("Listening on " + port);
  });
 
 
@@ -114,18 +121,48 @@ function ctrl_set( ctrl_str, state ){
     }
 };
 
-var vol_up, vol_dn;
 
-vol_up_sw.watch( function(err, state) {
+// current status values
+
+var vol_up, vol_dn, PA_busy, PA_VOX, radio_busy;
+
+init_stat();
+
+function init_stat(){
+    vol_up = vol_up_stat.readSync();
+    vol_dn = vol_dn_stat.readSync();
+    PA_busy = PA_busy_stat.readSync();
+    PA_VOX = PA_VOX_stat.readSync();
+    radio_busy = radio_busy_stat.readSync();
+
+
+
+};
+
+vol_up_stat.watch( function(err, state) {
     vol_up = state;
     console.log( "Vol up went to state " + vol_up );
 });
 
-vol_dn_sw.watch( function(err, state) {
+vol_dn_stat.watch( function(err, state) {
     vol_dn = state;
     console.log( "Vol dn went to state " + vol_dn );
 });
 
+PA_busy_stat.watch( function(err, state){
+    PA_busy = state;
+    console.log( "PA busy went to state " + PA_busy );   
+});
+
+PA_VOX_stat.watch( function(err, state){
+    pa_VOX = state;
+    console.log( "PA VOX  went to state " + PA_VOX );   
+});
+ 
+radio_busy_stat.watch( function(err, state){
+    radio_busy = state;
+    console.log( "radio busy went to state " + radio_busy );   
+});
 
 
 //setInterval(function() {

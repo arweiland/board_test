@@ -57,8 +57,8 @@ function sendSwitchChange( id, state )
 
 // This function called from onload event
 function getStatus() {
-//	setInterval( getStatus1, 250 );
-	getStatus1();
+	setInterval( getStatus1, 250 );
+//	getStatus1();
 };
 
 function getStatus1() {
@@ -79,9 +79,14 @@ function getStatus1() {
 };
 
 function proc_status( status ) {
-    //    alert("Got XMLHttpRequest responses! " + status.button);
     for (var key in status) {
-	console.log( 'Stat: ' + key + ' = ' + status[ key ] );
+//	console.log( 'Stat: ' + key + ' = ' + status[ key ] );
+	el = document.getElementById( key );
+	if (status[ key ] == 0 ){
+	    el.src = "images/gray.png";
+	}else{
+	    el.src = "images/red.png";
+	}
     }
 }
 
