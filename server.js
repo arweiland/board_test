@@ -69,7 +69,7 @@ app.get(/^(.+)$/, function(req, res){
  });
  
  var port = process.env.PORT || 5000;
-app.listen(port, function() {
+app.listen(port, '0.0.0.0',function() {
     console.log("Listening on " + port);
  });
 
